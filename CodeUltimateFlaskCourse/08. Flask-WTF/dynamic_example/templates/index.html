@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+    <form method="POST">
+
+    {{ form.csrf_token }}
+
+    {{ form.language(onchange='get_options()') }}
+
+    {{ form.framework }}
+
+    <input type="submit">
+
+    </form>
+
+    <script>
+
+        function get_options() {
+
+            // this function gets called everytime the value in the select
+            // changes
+
+            // use the value selected to request the HTML for the framework
+            // select field
+            var language = document.getElementById('language').value;
+            
+            options = fetch('getframework/' + language).then((response) => {
+                return response.text();
+            }).then((data) => {
+                var framework = document.getElementById('framework');
+                framework.outerHTML = data;
+            });
+
+        }
+        
+    </script>
+</body>
+</html>
